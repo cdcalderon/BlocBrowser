@@ -71,7 +71,6 @@
     [self.reloadButton addTarget:self.webView action:@selector(reload) forControlEvents:UIControlEventTouchUpInside];
     
    
-    
     for (UIView *viewToAdd in @[self.webView, self.textField, self.backButton, self.forwardButton, self.stopButton, self.reloadButton]){
         [mainView addSubview: viewToAdd];
     }
@@ -90,7 +89,6 @@
     self.textField.frame = CGRectMake(0, 0, width, itemHeight);
     self.webView.frame = CGRectMake(0, CGRectGetMaxY(self.textField.frame), width, browserHeight);
     
-    
     CGFloat currentButtonX = 0;
     
     for(UIButton *buttonToAdd in @[self.backButton, self.forwardButton, self.stopButton, self.reloadButton]){
@@ -106,9 +104,6 @@
     NSString *urlString = textField.text;
     NSArray *words = [urlString componentsSeparatedByString:@" "];
     NSArray *filteredWords = [words filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"length > 0"]];
-//     NSArray *array3 = [urlString componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-//    NSLog(@"Array values are : %@", words);
-//    NSLog(@"Array2 values are : %@", filteredWords);
     NSURL *url = [NSURL URLWithString: urlString];
     
     if([filteredWords count] > 1){
@@ -187,6 +182,5 @@
 - (NSString *) constructGoogleUrl: (NSArray *) words{
     return [NSString stringWithFormat:@"http://google.com/search?q=%@", [words componentsJoinedByString:@"+"]];
 }
-
 
 @end
