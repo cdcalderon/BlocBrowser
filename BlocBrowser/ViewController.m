@@ -29,6 +29,7 @@
     self.activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.activityIndicator];
     
+    [self displayWelcomeAlert];
 }
 
 -(void)loadView {
@@ -59,16 +60,14 @@
     [self.reloadButton setEnabled:NO];
     
     [self.backButton setTitle:NSLocalizedString(@"Back", @"Back Command") forState:UIControlStateNormal];
-    [self.backButton addTarget:self.webView action:@selector(goBack) forControlEvents:UIControlEventTouchUpInside];
     
     [self.forwardButton setTitle:NSLocalizedString(@"Forward", @"Forward Command") forState:UIControlStateNormal];
-    [self.forwardButton addTarget:self.webView action:@selector(goForward) forControlEvents:UIControlEventTouchUpInside];
     
     [self.stopButton setTitle:NSLocalizedString(@"Stop", @"Stop Command") forState:UIControlStateNormal];
-    [self.stopButton addTarget:self.webView action:@selector(stopLoading) forControlEvents:UIControlEventTouchUpInside];
     
     [self.reloadButton setTitle:NSLocalizedString(@"Refresh", @"Reload Command") forState:UIControlStateNormal];
-    [self.reloadButton addTarget:self.webView action:@selector(reload) forControlEvents:UIControlEventTouchUpInside];
+    
+    [self addBUttonTargets];
     
    
     for (UIView *viewToAdd in @[self.webView, self.textField, self.backButton, self.forwardButton, self.stopButton, self.reloadButton]){
@@ -95,6 +94,32 @@
         buttonToAdd.frame = CGRectMake(currentButtonX, CGRectGetMaxY(self.webView.frame), buttonWidth, itemHeight);
         currentButtonX += buttonWidth;
     }
+    
+}
+
+- (void)resetWebView {
+    [self.webView removeFromSuperview];
+    WKWebView *newWebview = [[WKWebView alloc] init];
+    newWebview.navigationDelegate = self;
+    [self.view addSubview: newWebview];
+    
+    self.webView = newWebview;
+    
+    [self addBUttonTargets];
+    
+    self.textField.text = nil;
+    [self updateButtonsAndTitle];
+}
+
+- (void) addBUttonTargets {
+    for (UIButton *button in @[self.backButton, self.forwardButton, self.stopButton, self.reloadButton]){
+        [button removeTarget:nil action:NULL forControlEvents:UIControlEventTouchUpInside];
+    }
+    
+    [self.backButton addTarget: self.webView action:@selector(goBack) forControlEvents:UIControlEventTouchUpInside];
+    [self.forwardButton addTarget: self.webView action:@selector(goForward) forControlEvents:UIControlEventTouchUpInside];
+    [self.stopButton addTarget: self.webView action:@selector(stopLoading) forControlEvents:UIControlEventTouchUpInside];
+    [self.reloadButton addTarget: self.webView action:@selector(reload) forControlEvents:UIControlEventTouchUpInside];
     
 }
 
@@ -176,11 +201,51 @@
     self.backButton.enabled = [self.webView canGoForward];
     self.forwardButton.enabled = [self.webView canGoForward];
     self.stopButton.enabled = self.webView.isLoading;
-    self.reloadButton.enabled = !self.webView.isLoading;
+    self.reloadButton.enabled = !self.webView.isLoading && self.webView.URL;
 }
 
 - (NSString *) constructGoogleUrl: (NSArray *) words{
     return [NSString stringWithFormat:@"http://google.com/search?q=%@", [words componentsJoinedByString:@"+"]];
+}
+
+- (void) displayWelcomeAlert {
+    //Alert with OK dismiss
+//    UIAlertController *welcomeAlert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"BlocBrowser", @"Welcome message")
+//                                                                          message:@"Welcome to Bloc Browser"
+//                                                                   preferredStyle:UIAlertControllerStyleAlert];
+//    
+//    UIAlertAction *infoAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK", nil) style:UIAlertActionStyleDestructive handler:nil];
+//    
+//    [welcomeAlert addAction:infoAction];
+//    [self presentViewController:welcomeAlert animated:YES completion:nil];
+    
+    
+    
+    // dismiss alert after 2 seconds version
+    welcomeAlertView = [[UIAlertView alloc] initWithTitle:nil message:@"Welcome to Bloc Browser" delegate:self cancelButtonTitle:nil otherButtonTitles:nil, nil];
+    [welcomeAlertView show];
+    
+    //Method Dismiss #1
+    //[self performSelector:@selector(dismissAlertView) withObject:welcomeAlertView afterDelay:2.0f];
+    
+    //Method Dismiss #2 using NSTImer
+    dismissAlertViewTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(dismissAlertView) userInfo:nil repeats:NO];
+
+}
+
+//Function called only by imer to dismiss the alertview
+
+- (void) dismissAlertView {
+    [welcomeAlertView dismissWithClickedButtonIndex:-1 animated:YES];
+}
+
+// Alert View Delegate
+
+- (void) alertView:(UIAlertView *) alertView clickedButtonAtIndex: (NSInteger)buttonIndex {
+    if(dismissAlertViewTimer != nil){
+        [dismissAlertViewTimer invalidate];
+        dismissAlertViewTimer = nil;
+    }
 }
 
 @end
