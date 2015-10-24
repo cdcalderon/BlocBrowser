@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		07A1CDD31BD97CC300611DF7 /* AwesomeFloatingToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 07A1CDD21BD97CC300611DF7 /* AwesomeFloatingToolbar.m */; };
 		07AFF6561BD625C400D540FC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 07AFF6551BD625C400D540FC /* main.m */; };
 		07AFF6591BD625C400D540FC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 07AFF6581BD625C400D540FC /* AppDelegate.m */; };
 		07AFF65C1BD625C400D540FC /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 07AFF65B1BD625C400D540FC /* ViewController.m */; };
@@ -26,6 +27,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		07A1CDD11BD97CC300611DF7 /* AwesomeFloatingToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AwesomeFloatingToolbar.h; sourceTree = "<group>"; };
+		07A1CDD21BD97CC300611DF7 /* AwesomeFloatingToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AwesomeFloatingToolbar.m; sourceTree = "<group>"; };
 		07AFF6501BD625C400D540FC /* BlocBrowser.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BlocBrowser.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		07AFF6541BD625C400D540FC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		07AFF6551BD625C400D540FC /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -86,6 +89,8 @@
 				07AFF6601BD625C400D540FC /* Images.xcassets */,
 				07AFF6621BD625C400D540FC /* LaunchScreen.xib */,
 				07AFF6531BD625C400D540FC /* Supporting Files */,
+				07A1CDD11BD97CC300611DF7 /* AwesomeFloatingToolbar.h */,
+				07A1CDD21BD97CC300611DF7 /* AwesomeFloatingToolbar.m */,
 			);
 			path = BlocBrowser;
 			sourceTree = "<group>";
@@ -218,6 +223,7 @@
 				07AFF65C1BD625C400D540FC /* ViewController.m in Sources */,
 				07AFF6591BD625C400D540FC /* AppDelegate.m in Sources */,
 				07AFF6561BD625C400D540FC /* main.m in Sources */,
+				07A1CDD31BD97CC300611DF7 /* AwesomeFloatingToolbar.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
