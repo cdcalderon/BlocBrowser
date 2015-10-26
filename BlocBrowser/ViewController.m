@@ -84,8 +84,6 @@
     [self updateButtonsAndTitle];
 }
 
-
-
 #pragma mark - UITextFieldDelegate
 - (BOOL) textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
@@ -213,7 +211,7 @@
     }
 }
 
-#pragma mark - AwesomeFloatingToolbarDelegate
+#pragma mark - AwesomeFloatingToolbarDelegates
 
 - (void) floatingToolbar:(AwesomeFloatingToolbar *)toolbar didSelectButtonWithTitle:(NSString *)title {
     if ([title isEqual:kWebBrowserBackString]) {
@@ -225,6 +223,22 @@
     } else if ([title isEqual:kWebBrowserStopString]) {
         [self.webView reload];
     }
+}
+
+- (void) floatingToolbar:(AwesomeFloatingToolbar *)toolbar didTryToPanWithOffset:(CGPoint)offset {
+    CGPoint startingPoint = toolbar.frame.origin;
+    CGPoint newPoint = CGPointMake(startingPoint.x + offset.x, startingPoint.y + offset.y);
+    
+    CGRect potentialNewFrame = CGRectMake(newPoint.x, newPoint.y, CGRectGetWidth(toolbar.frame), CGRectGetHeight(toolbar.frame));
+    
+    if(CGRectContainsRect(self.view.bounds, potentialNewFrame)){
+        toolbar.frame = potentialNewFrame;
+    }
+    
+}
+
+- (void) floatingToolbar:(AwesomeFloatingToolbar *)toolbar didTryToScaleWithTransform:(CGAffineTransform)transform {
+    self.awesomeToolbar.transform = transform;
 }
 
 @end
