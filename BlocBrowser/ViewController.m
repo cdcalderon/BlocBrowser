@@ -69,7 +69,6 @@
     self.webView.frame = CGRectMake(0, CGRectGetMaxY(self.textField.frame), width, browserHeight);
     
     self.awesomeToolbar.frame = CGRectMake(20, 100, 335, 60);
-    
 }
 
 - (void)resetWebView {

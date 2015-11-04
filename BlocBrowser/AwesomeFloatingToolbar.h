@@ -18,7 +18,7 @@
 - (void) floatingToolbar:(AwesomeFloatingToolbar *)toolbar didTryToScaleWithTransform:(CGAffineTransform)transform;
 @end
 
-@interface AwesomeFloatingToolbar : UIView
+@interface AwesomeFloatingToolbar : UIView <UIGestureRecognizerDelegate>
 
 @property (nonatomic, weak) id <AwesomeFloatingToolbarDelegate> delegate;
 -(instancetype) initWIthFourTitles: (NSArray *) titles;
