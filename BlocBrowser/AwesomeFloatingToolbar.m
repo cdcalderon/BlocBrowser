@@ -59,6 +59,7 @@
            
             [button setTag:tagIndex];
             tagIndex++;
+            [button addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
             [labelsArray addObject:button];
         }
         self.labels = labelsArray;
@@ -66,17 +67,16 @@
         for(UIButton *thisButton in self.labels){
             [self addSubview: thisButton];
         }
-        
-        self.tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapFired:)];
-        self.tapGesture.cancelsTouchesInView = NO;
-        [self addGestureRecognizer:self.tapGesture];
+//        
+//        self.tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapFired:)];
+//        self.tapGesture.cancelsTouchesInView = NO;
+//        [self addGestureRecognizer:self.tapGesture];
         
         
         self.panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panFired:)];
         [self addGestureRecognizer:self.panGesture];
         
         self.pinchGesture = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(pinchFired:)];
-        
         [self addGestureRecognizer:self.pinchGesture];
         
         self.longPressGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressFired:)];
@@ -114,18 +114,29 @@
     }
 }
 
-- (void)tapFired:(UITapGestureRecognizer *)recognizer {
-    if(recognizer.state == UIGestureRecognizerStateRecognized){
-        CGPoint location = [recognizer locationInView:self];
-        UIView *tappedView = [self hitTest:location withEvent:nil];
-        
-        if([self.labels containsObject:tappedView]) {
-            if([self.delegate respondsToSelector:@selector(floatingToolbar:didSelectButtonWithTitle:)]){
-                [self.delegate floatingToolbar:self didSelectButtonWithTitle:((UIButton *)tappedView).titleLabel.text];
-            }
-        }
+-(void)buttonPressed:(UIButton *)sender {
+    if(![sender isKindOfClass:[UIButton class]]){
+        return;
     }
+    NSString *buttonTitle = [(UIButton *) sender currentTitle];
+    if([self.delegate respondsToSelector:@selector(floatingToolbar:didSelectButtonWithTitle:)]){
+        [self.delegate floatingToolbar:self didSelectButtonWithTitle:buttonTitle];
+    }
+    
 }
+
+//- (void)tapFired:(UITapGestureRecognizer *)recognizer {
+//    if(recognizer.state == UIGestureRecognizerStateRecognized){
+//        CGPoint location = [recognizer locationInView:self];
+//        UIView *tappedView = [self hitTest:location withEvent:nil];
+//        
+//        if([self.labels containsObject:tappedView]) {
+//            if([self.delegate respondsToSelector:@selector(floatingToolbar:didSelectButtonWithTitle:)]){
+//                [self.delegate floatingToolbar:self didSelectButtonWithTitle:((UIButton *)tappedView).titleLabel.text];
+//            }
+//        }
+//    }
+//}
 
 - (void) panFired:(UIPanGestureRecognizer *)recognizer {
     if(recognizer.state == UIGestureRecognizerStateChanged){
@@ -183,17 +194,17 @@
 
 #pragma mark - Touch Handling
 
-- (UIButton *) labelFromTouches:(NSSet *)touches withEvent:(UIEvent *)event {
-    UITouch *touch = [touches anyObject];
-    CGPoint location = [touch locationInView:self];
-    UIView *subview = [self hitTest:location withEvent:event];
-    
-    if([subview isKindOfClass:[UIButton class]]) {
-        return (UIButton *) subview;
-    } else {
-        return nil;
-    }
-}
+//- (UIButton *) labelFromTouches:(NSSet *)touches withEvent:(UIEvent *)event {
+//    UITouch *touch = [touches anyObject];
+//    CGPoint location = [touch locationInView:self];
+//    UIView *subview = [self hitTest:location withEvent:event];
+//    
+//    if([subview isKindOfClass:[UIButton class]]) {
+//        return (UIButton *) subview;
+//    } else {
+//        return nil;
+//    }
+//}
 
 #pragma mark - Button Enabling
 - (void) setEnabled:(BOOL)enabled forButtonWithTitle:(NSString *)title {
